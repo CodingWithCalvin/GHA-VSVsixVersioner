@@ -12,7 +12,7 @@ You can use the Visual Studio VSIX Versioner GitHub Action by configuring a YAML
 
 > *This action only works on a Windows-based runner*
 
-## Version the VSIX *befre* building
+## Version the VSIX *before* building
 
 ```yml
 steps:
