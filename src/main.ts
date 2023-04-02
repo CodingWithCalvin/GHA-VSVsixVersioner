@@ -13,9 +13,18 @@ const VSIX_SOURCE_PATH = core.getInput('extension-source-file', {
 })
 const BUILD_NUMBER = core.getInput('build-number') || github.context.runNumber
 const NOW = new Date()
+const VERSION = `${NOW.getFullYear()}.${
+  NOW.getMonth() + 1
+}.${NOW.getDate()}.${BUILD_NUMBER}`
 
 async function run(): Promise<void> {
   try {
+    console.log("********************************")
+    console.log(`Version Evaluted = ${VERSION}`)
+    console.log("********************************")
+    
+    core.setOutput('version', VERSION)
+
     if (IS_WINDOWS === false) {
       core.setFailed(
         'action-vs-vsix-versioner can only be run on Windows-based runners'
@@ -33,15 +42,10 @@ async function run(): Promise<void> {
       return
     }
 
-    const VERSION = `${NOW.getFullYear()}.${
-      NOW.getMonth() + 1
-    }.${NOW.getDate()}.${BUILD_NUMBER}`
-    core.setOutput('version', VERSION)
-
     fs.readFile(
       VSIX_MANIFEST_PATH,
       {encoding: 'utf-8'},
-      function (manifestReadError, data) {
+      function (manifestReadError: any, data: any) {
         if (manifestReadError) {
           core.setFailed(
             `Unable to READ VSIX Manifest. Error: '${manifestReadError}'`
@@ -68,7 +72,7 @@ async function run(): Promise<void> {
         fs.writeFile(
           VSIX_MANIFEST_PATH,
           xmlContent,
-          function (manifestWriteError) {
+          function (manifestWriteError: any) {
             if (manifestWriteError) {
               core.setFailed(
                 `Unable to UPDATE VSIX Manifest. Error: '${manifestWriteError}'`
@@ -86,7 +90,7 @@ async function run(): Promise<void> {
     fs.readFile(
       VSIX_SOURCE_PATH,
       {encoding: 'utf-8'},
-      function (sourceReadError, data) {
+      function (sourceReadError: any, data: string) {
         if (sourceReadError) {
           core.setFailed(
             `Unable to READ VSIX Source File. Error: '${sourceReadError}'`
@@ -98,7 +102,7 @@ async function run(): Promise<void> {
         fs.writeFile(
           VSIX_SOURCE_PATH,
           updatedData,
-          function (sourceWriteError) {
+          function (sourceWriteError: any) {
             if (sourceWriteError) {
               core.setFailed(
                 `Unable to UPDATE VSIX Source File. Error: '${sourceWriteError}'`

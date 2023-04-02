@@ -1,6 +1,124 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 3109:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const core = __importStar(__nccwpck_require__(2186));
+const fs = __importStar(__nccwpck_require__(5747));
+const github = __importStar(__nccwpck_require__(5438));
+const xml = __importStar(__nccwpck_require__(2603));
+const IS_WINDOWS = process.platform === 'win32';
+const VSIX_MANIFEST_PATH = core.getInput('extension-manifest-file', {
+    required: true
+});
+const VSIX_SOURCE_PATH = core.getInput('extension-source-file', {
+    required: true
+});
+const BUILD_NUMBER = core.getInput('build-number') || github.context.runNumber;
+const NOW = new Date();
+const VERSION = `${NOW.getFullYear()}.${NOW.getMonth() + 1}.${NOW.getDate()}.${BUILD_NUMBER}`;
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            console.log(`Evaluated Version = ${VERSION}`);
+            core.setOutput('version', VERSION);
+            if (IS_WINDOWS === false) {
+                core.setFailed('action-vs-vsix-versioner can only be run on Windows-based runners');
+                return;
+            }
+            if (!fs.existsSync(VSIX_MANIFEST_PATH)) {
+                core.setFailed(`No VSIX manifest file at: '${VSIX_MANIFEST_PATH}'`);
+                return;
+            }
+            if (!fs.existsSync(VSIX_SOURCE_PATH)) {
+                core.setFailed(`No VSIX source file at: '${VSIX_SOURCE_PATH}'`);
+                return;
+            }
+            fs.readFile(VSIX_MANIFEST_PATH, { encoding: 'utf-8' }, function (manifestReadError, data) {
+                if (manifestReadError) {
+                    core.setFailed(`Unable to READ VSIX Manifest. Error: '${manifestReadError}'`);
+                    return;
+                }
+                const parser = new xml.XMLParser({
+                    alwaysCreateTextNode: true,
+                    ignoreAttributes: false
+                });
+                const jObj = parser.parse(data);
+                jObj.PackageManifest.Metadata.Identity['@_Version'] = VERSION;
+                const builder = new xml.XMLBuilder({
+                    format: true,
+                    ignoreAttributes: false,
+                    processEntities: false,
+                    indentBy: '     '
+                });
+                const xmlContent = builder.build(jObj);
+                fs.writeFile(VSIX_MANIFEST_PATH, xmlContent, function (manifestWriteError) {
+                    if (manifestWriteError) {
+                        core.setFailed(`Unable to UPDATE VSIX Manifest. Error: '${manifestWriteError}'`);
+                        return;
+                    }
+                });
+            });
+            const searchString = /Version\s[=]\s["](?:[0-9\\.]+)["][;]/;
+            const replacementString = `Version = "${VERSION}";`;
+            fs.readFile(VSIX_SOURCE_PATH, { encoding: 'utf-8' }, function (sourceReadError, data) {
+                if (sourceReadError) {
+                    core.setFailed(`Unable to READ VSIX Source File. Error: '${sourceReadError}'`);
+                    return;
+                }
+                const updatedData = data.replace(searchString, replacementString);
+                fs.writeFile(VSIX_SOURCE_PATH, updatedData, function (sourceWriteError) {
+                    if (sourceWriteError) {
+                        core.setFailed(`Unable to UPDATE VSIX Source File. Error: '${sourceWriteError}'`);
+                        return;
+                    }
+                });
+            });
+        }
+        catch (err) {
+            if (err instanceof Error) {
+                core.setFailed(err.toString());
+            }
+        }
+    });
+}
+run();
+
+
+/***/ }),
+
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -11629,123 +11747,6 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
-/***/ 399:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const core = __importStar(__nccwpck_require__(2186));
-const fs = __importStar(__nccwpck_require__(5747));
-const github = __importStar(__nccwpck_require__(5438));
-const xml = __importStar(__nccwpck_require__(2603));
-const IS_WINDOWS = process.platform === 'win32';
-const VSIX_MANIFEST_PATH = core.getInput('extension-manifest-file', {
-    required: true
-});
-const VSIX_SOURCE_PATH = core.getInput('extension-source-file', {
-    required: true
-});
-const BUILD_NUMBER = core.getInput('build-number') || github.context.runNumber;
-const NOW = new Date();
-function run() {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            if (IS_WINDOWS === false) {
-                core.setFailed('action-vs-vsix-versioner can only be run on Windows-based runners');
-                return;
-            }
-            if (!fs.existsSync(VSIX_MANIFEST_PATH)) {
-                core.setFailed(`No VSIX manifest file at: '${VSIX_MANIFEST_PATH}'`);
-                return;
-            }
-            if (!fs.existsSync(VSIX_SOURCE_PATH)) {
-                core.setFailed(`No VSIX source file at: '${VSIX_SOURCE_PATH}'`);
-                return;
-            }
-            const VERSION = `${NOW.getFullYear()}.${NOW.getMonth() + 1}.${NOW.getDate()}.${BUILD_NUMBER}`;
-            core.setOutput('version', VERSION);
-            fs.readFile(VSIX_MANIFEST_PATH, { encoding: 'utf-8' }, function (manifestReadError, data) {
-                if (manifestReadError) {
-                    core.setFailed(`Unable to READ VSIX Manifest. Error: '${manifestReadError}'`);
-                    return;
-                }
-                const parser = new xml.XMLParser({
-                    alwaysCreateTextNode: true,
-                    ignoreAttributes: false
-                });
-                const jObj = parser.parse(data);
-                jObj.PackageManifest.Metadata.Identity['@_Version'] = VERSION;
-                const builder = new xml.XMLBuilder({
-                    format: true,
-                    ignoreAttributes: false,
-                    processEntities: false,
-                    indentBy: '     '
-                });
-                const xmlContent = builder.build(jObj);
-                fs.writeFile(VSIX_MANIFEST_PATH, xmlContent, function (manifestWriteError) {
-                    if (manifestWriteError) {
-                        core.setFailed(`Unable to UPDATE VSIX Manifest. Error: '${manifestWriteError}'`);
-                        return;
-                    }
-                });
-            });
-            const searchString = /Version\s[=]\s["](?:[0-9\\.]+)["][;]/;
-            const replacementString = `Version = "${VERSION}";`;
-            fs.readFile(VSIX_SOURCE_PATH, { encoding: 'utf-8' }, function (sourceReadError, data) {
-                if (sourceReadError) {
-                    core.setFailed(`Unable to READ VSIX Source File. Error: '${sourceReadError}'`);
-                    return;
-                }
-                const updatedData = data.replace(searchString, replacementString);
-                fs.writeFile(VSIX_SOURCE_PATH, updatedData, function (sourceWriteError) {
-                    if (sourceWriteError) {
-                        core.setFailed(`Unable to UPDATE VSIX Source File. Error: '${sourceWriteError}'`);
-                        return;
-                    }
-                });
-            });
-        }
-        catch (err) {
-            if (err instanceof Error) {
-                core.setFailed(err.toString());
-            }
-        }
-    });
-}
-run();
-
-
-/***/ }),
-
 /***/ 2877:
 /***/ ((module) => {
 
@@ -11924,7 +11925,7 @@ module.exports = require("zlib");
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(399);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(3109);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
