@@ -1,11 +1,19 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Visual Studio VSIX Versioner'
+description: 'Version your Visual Studio extension with ease!'
+author: 'Coding with Calvin'
+branding:
+  color: purple
+  icon: zap
 inputs:
-  milliseconds: # change this
+  extension-manifest-file:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'Path to your source.extension.vsixmanifest file'
+  extension-source-file:
+    required: true
+    description: 'Path to the source file generated from the manifest (using VSIX Syncronizer)'
+  build-number:
+    required: false
+    description: 'Specify the build number you would like to utilize for the generated version.'
 runs:
   using: 'node16'
   main: 'dist/index.js'

@@ -1,105 +1,41 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# calvinallen/action-vs-vsix-versioner
 
-# Create a JavaScript Action using TypeScript
+Github Action to update your Visual Studio extension to a version that is based off of the current date and the CI build number.
 
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
+> *This action requires your extension to utilize the [VSIX Synchronizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.VsixSynchronizer64) model for managing the version in the `source.extension.vsixmanifest` and the `source.extension.cs` code-behind file that is automatically synchronized.*
+>
+> *Other versioning styles will be supported in the future*
 
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
+## Usage
 
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
+You can use the Visual Studio VSIX Versioner GitHub Action by configuring a YAML-based workflow file, e.g. .github/workflows/deploy.yml.
 
-## Create an action from this template
+> *This action only works on a Windows-based runner*
 
-Click the `Use this Template` and provide the new repo details for your action
+## Version the VSIX *befre* building
 
-## Code in Main
+```yml
+steps:
+    - name: Checkout
+      uses: actions/checkout@v2
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+    - name: Visual Studio VSIX Versioner
+      uses: CalvinAllen/action-vs-vsix-versioner@v1
+      with:
+        # REQUIRED
+        extension-manifest-file: './src/CodingWithCalvin.OpenBinFolder.Vsix/source.extension.vsixmanifest'
+        extension-source-file: './src/CodingWithCalvin.OpenBinFolder.Vsix/source.extension.cs'
 
-Install the dependencies  
-```bash
-$ npm install
+        # OPTIONAL
+        build-number: ${{ github.run_number }}
+
+
 ```
 
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
+## Inputs
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
-
-## Publish to a distribution branch
-
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
-
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
-
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
-
-Your action is now published! :rocket: 
-
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
-
-```yaml
-uses: ./
-with:
-  milliseconds: 1000
-```
-
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+| Input                    | Required | Description                                                                                                          |
+| ------------------------ | -------- | -------------------------------------------------------------------------------------------------------------------- |
+| extension-manifest-file  | Y        | Path to the manifest used for the extension                                                                          |
+| extension-source-file    | Y        | Path to the source file generated from the manifest (using VSIX Syncronizer)                                         |
+| build-number             | N        | Specify the build number you'd like to utilize, otherwise, defaults to the `run_number` of the build itself          |

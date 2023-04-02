@@ -1,0 +1,10 @@
+inputs:
+  extension-manifest-file:
+    type: string
+  extension-source-file:
+    type: string
+  build-number:
+    type: number
+outputs:
+  version:
+    type: string
