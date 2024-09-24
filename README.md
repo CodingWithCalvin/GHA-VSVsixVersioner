@@ -1,4 +1,4 @@
-# calvinallen/action-vs-vsix-versioner
+# codingwithcalvin/action-vs-vsix-versioner
 
 Github Action to update your Visual Studio extension to a version that is based off of the current date and the CI build number.
 
@@ -20,7 +20,7 @@ steps:
       uses: actions/checkout@v2
 
     - name: Visual Studio VSIX Versioner
-      uses: CalvinAllen/action-vs-vsix-versioner@v1
+      uses: codingwithcalvin/action-vs-vsix-versioner@v1
       with:
         # REQUIRED
         extension-manifest-file: './src/CodingWithCalvin.OpenBinFolder.Vsix/source.extension.vsixmanifest'
