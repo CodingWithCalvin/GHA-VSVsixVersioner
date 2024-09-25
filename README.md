@@ -1,6 +1,6 @@
 # CodingWithCalvin/GHA-VSVsixVersioner
 
-Github Action to update your Visual Studio extension to a version that is based
+GitHub Action to update your Visual Studio extension to a version that is based
 off of the current date and the CI build number.
 
 > _This action requires your extension to utilize the
