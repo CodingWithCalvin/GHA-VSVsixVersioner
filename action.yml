@@ -1,6 +1,6 @@
 name: 'Visual Studio VSIX Versioner'
 description: 'Version your Visual Studio extension with ease!'
-author: 'Coding with Calvin'
+author: 'Coding With Calvin'
 branding:
   color: purple
   icon: zap
@@ -15,5 +15,5 @@ inputs:
     required: false
     description: 'Specify the build number you would like to utilize for the generated version.'
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'
