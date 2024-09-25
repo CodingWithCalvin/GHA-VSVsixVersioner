@@ -10,10 +10,14 @@ inputs:
     description: 'Path to your source.extension.vsixmanifest file'
   extension-source-file:
     required: true
-    description: 'Path to the source file generated from the manifest (using VSIX Syncronizer)'
+    description:
+      'Path to the source file generated from the manifest (using VSIX
+      Syncronizer)'
   build-number:
     required: false
-    description: 'Specify the build number you would like to utilize for the generated version.'
+    description:
+      'Specify the build number you would like to utilize for the generated
+      version.'
 runs:
   using: 'node20'
   main: 'dist/index.js'

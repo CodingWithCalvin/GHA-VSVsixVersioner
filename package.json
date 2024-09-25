@@ -1,17 +1,25 @@
 {
   "name": "action-vs-vsix-versioner",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "private": true,
   "description": "Version your Visual Studio extension with ease!",
-  "main": "dist/main.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
   "scripts": {
-    "build": "tsc",
-    "format": "prettier --write ./src/**/*.ts",
-    "format-check": "prettier --check ./src/**/*.ts",
-    "lint": "eslint ./src/**/*.ts",
-    "package": "ncc build",
-    "test": "jest",
-    "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
+    "bundle": "npm run format:write && npm run package",
+    "ci-test": "npx jest",
+    "coverage": "npx make-coverage-badge --output-path ./badges/coverage.svg",
+    "format:write": "npx prettier --write .",
+    "format:check": "npx prettier --check .",
+    "lint": "npx eslint . -c ./.github/linters/.eslintrc.yml",
+    "package": "npx ncc build src/index.ts -o dist --source-map --license licenses.txt",
+    "package:watch": "npm run package -- --watch",
+    "test": "npx jest",
+    "all": "npm run format:write && npm run lint && npm run test && npm run coverage && npm run package"
+  },
+  "engines": {
+    "node": ">=21"
   },
   "repository": {
     "type": "git",
@@ -30,7 +38,7 @@
     "fast-xml-parser": "^4.2.7"
   },
   "devDependencies": {
-    "@types/node": "^22.0.2",
+    "@types/node": "^22.7.0",
     "@typescript-eslint/parser": "^8.7.0",
     "@vercel/ncc": "^0.31.1",
     "eslint": "^8.46.0",
@@ -41,5 +49,34 @@
     "prettier": "3.3.3",
     "ts-jest": "^27.1.2",
     "typescript": "^4.4.4"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "verbose": true,
+    "clearMocks": true,
+    "testEnvironment": "node",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "testMatch": [
+      "**/*.test.ts"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "coverageReporters": [
+      "json-summary",
+      "text",
+      "lcov"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "./src/**"
+    ]
   }
 }

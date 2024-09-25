@@ -19,10 +19,10 @@ const VERSION = `${NOW.getFullYear()}.${
 
 async function run(): Promise<void> {
   try {
-    console.log("********************************")
+    console.log('********************************')
     console.log(`Version Evaluted = ${VERSION}`)
-    console.log("********************************")
-    
+    console.log('********************************')
+
     core.setOutput('version', VERSION)
 
     if (IS_WINDOWS === false) {
@@ -44,8 +44,8 @@ async function run(): Promise<void> {
 
     fs.readFile(
       VSIX_MANIFEST_PATH,
-      {encoding: 'utf-8'},
-      function (manifestReadError: any, data: any) {
+      { encoding: 'utf-8' },
+      function (manifestReadError: NodeJS.ErrnoException | null, data: string) {
         if (manifestReadError) {
           core.setFailed(
             `Unable to READ VSIX Manifest. Error: '${manifestReadError}'`
@@ -72,10 +72,10 @@ async function run(): Promise<void> {
         fs.writeFile(
           VSIX_MANIFEST_PATH,
           xmlContent,
-          function (manifestWriteError: any) {
-            if (manifestWriteError) {
+          function (err: NodeJS.ErrnoException | null) {
+            if (err) {
               core.setFailed(
-                `Unable to UPDATE VSIX Manifest. Error: '${manifestWriteError}'`
+                `Unable to UPDATE VSIX Manifest File. Error: '${err}'`
               )
               return
             }
@@ -89,8 +89,8 @@ async function run(): Promise<void> {
 
     fs.readFile(
       VSIX_SOURCE_PATH,
-      {encoding: 'utf-8'},
-      function (sourceReadError: any, data: string) {
+      { encoding: 'utf-8' },
+      function (sourceReadError: NodeJS.ErrnoException | null, data: string) {
         if (sourceReadError) {
           core.setFailed(
             `Unable to READ VSIX Source File. Error: '${sourceReadError}'`
@@ -102,10 +102,10 @@ async function run(): Promise<void> {
         fs.writeFile(
           VSIX_SOURCE_PATH,
           updatedData,
-          function (sourceWriteError: any) {
-            if (sourceWriteError) {
+          function (err: NodeJS.ErrnoException | null) {
+            if (err) {
               core.setFailed(
-                `Unable to UPDATE VSIX Source File. Error: '${sourceWriteError}'`
+                `Unable to UPDATE VSIX Source File. Error: '${err}'`
               )
               return
             }
