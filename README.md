@@ -25,7 +25,7 @@ steps:
     uses: actions/checkout@v2
 
   - name: Visual Studio VSIX Versioner
-    uses: CodingWithCalvin/GHA-VSVsixVersioner@v1
+    uses: CodingWithCalvin/GHA-VSVsixVersioner@v2.0.0
     with:
       # REQUIRED
       extension-manifest-file: './src/CodingWithCalvin.OpenBinFolder.Vsix/source.extension.vsixmanifest'
