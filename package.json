@@ -38,7 +38,7 @@
     "fast-xml-parser": "^4.5.0"
   },
   "devDependencies": {
-    "@types/node": "^22.7.4",
+    "@types/node": "^22.8.6",
     "@typescript-eslint/parser": "^8.12.2",
     "@vercel/ncc": "^0.38.2",
     "eslint": "^8.0.1",
