@@ -4,15 +4,21 @@
 [![GitHub release](https://img.shields.io/github/v/release/CodingWithCalvin/GHA-VSVsixVersioner?style=for-the-badge)](https://github.com/CodingWithCalvin/GHA-VSVsixVersioner/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-🏷️ Version your Visual Studio extensions automatically based on date and build number!
+🏷️ Version your Visual Studio extensions automatically based on date and build
+number!
 
-This GitHub Action updates your Visual Studio extension to a version based on the current date and CI build number.
+This GitHub Action updates your Visual Studio extension to a version based on
+the current date and CI build number.
 
 ## 🚀 Usage
 
-You can use the Visual Studio VSIX Versioner GitHub Action by configuring a YAML-based workflow file, e.g. `.github/workflows/deploy.yml`.
+You can use the Visual Studio VSIX Versioner GitHub Action by configuring a
+YAML-based workflow file, e.g. `.github/workflows/deploy.yml`.
 
-> ⚠️ **Note:** This action requires your extension to utilize the [VSIX Synchronizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.VsixSynchronizer64) model for managing the version in the `source.extension.vsixmanifest` and the `source.extension.cs` code-behind file that is automatically synchronized.
+> ⚠️ **Note:** This action requires your extension to utilize the
+> [VSIX Synchronizer](https://marketplace.visualstudio.com/items?itemName=MadsKristensen.VsixSynchronizer64)
+> model for managing the version in the `source.extension.vsixmanifest` and the
+> `source.extension.cs` code-behind file that is automatically synchronized.
 >
 > Other versioning styles will be supported in the future.
 
@@ -20,11 +26,11 @@ You can use the Visual Studio VSIX Versioner GitHub Action by configuring a YAML
 
 ## 📥 Inputs
 
-| Input | Required | Description |
-|-------|----------|-------------|
-| `extension-manifest-file` | Yes | Path to your `source.extension.vsixmanifest` file |
-| `extension-source-file` | Yes | Path to the source file generated from the manifest (using VSIX Synchronizer) |
-| `build-number` | No | Build number to use for versioning (defaults to `run_number`) |
+| Input                     | Required | Description                                                                   |
+| ------------------------- | -------- | ----------------------------------------------------------------------------- |
+| `extension-manifest-file` | Yes      | Path to your `source.extension.vsixmanifest` file                             |
+| `extension-source-file`   | Yes      | Path to the source file generated from the manifest (using VSIX Synchronizer) |
+| `build-number`            | No       | Build number to use for versioning (defaults to `run_number`)                 |
 
 ## 📋 Example
 
@@ -49,7 +55,9 @@ steps:
 ## 👥 Contributors
 
 <!-- readme: contributors -start -->
-[![CalvinAllen](https://avatars.githubusercontent.com/u/41448698?v=4&s=64)](https://github.com/CalvinAllen) 
+
+[![CalvinAllen](https://avatars.githubusercontent.com/u/41448698?v=4&s=64)](https://github.com/CalvinAllen)
+
 <!-- readme: contributors -end -->
 
 ## 📄 License
